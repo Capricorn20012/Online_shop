@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load store_tags %}
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block header_text %}
+
+{% endblock header_text %}
+
+
+{% block header_poster %}
+
+{% endblock header_poster %}
+
+
+{% block main %}
+
+<main>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-6">
+                <div class="box-element">
+                    <a href="{% url 'cart' %}" class="btn btn-primary rounded">Вернуться в корзину</a>
+                    <hr>
+                    <h3>Заказанные товары</h3>
+                    <hr>
+                    <div class="cart-row">
+                        <div style="flex:2"><strong>Товар</strong></div>
+                        <div style="flex:1"><strong>Цена</strong></div>
+                        <div style="flex:1"><strong>Количество</strong></div>
+                        <div style="flex:1"><strong>Итого</strong></div>
+                    </div>
+                    {% for product in items %}
+                    {% include 'store/components/_cart_row.html' %}
+                    {% endfor %}
+
+                    <h5>Количество товаров: {{ order.get_cart_total_quantity }}</h5>
+                    <h5>Итого: {{ order.get_cart_total_price }}</h5>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="box-element">
+                    <form action="{% url 'payment' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {% if not request.user.first_name and not request.user.last_name %}
+
+                        {{ customer_form.as_p }}
+
+                        {% else %}
+                        <div id="user-info">
+                            <div class="form-field">
+                                <p>Ваше имя: <strong>{{ request.user.first_name }}</strong></p>
+                            </div>
+                            <div class="form-field">
+                                <p>Ваша фамилия: <strong>{{ request.user.last_name }}</strong></p>
+                            </div>
+                            <div class="form-field">
+                                <p>Ваш username: <strong>{{ request.user.username }}</strong></p>
+                            </div>
+                            <div class="form-field">
+                                <p>Ваша почта: <strong>{{ request.user.email }}</strong></p>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <hr>
+
+                        {{ shipping_form.as_p }}
+
+                        <button class="btn btn-success rounded" type="submit">Оформить заказ</button>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</main>
+
+
+{% endblock main %}

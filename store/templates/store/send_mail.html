@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load store_tags %}
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block header_text %}
+
+{% endblock header_text %}
+
+
+
+{% block header_poster %}
+
+{% endblock header_poster %}
+
+
+
+{% block main %}
+
+{% if request.user.is_superuser %}
+
+<div class="container mb-4">
+    <h3>Введите тест для рассылки</h3>
+    <form action="{% url 'send_mail' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <textarea name="text" id="" cols="30" rows="10" placeholder="Текст..." class="form-control"></textarea>
+        <button class="btn btn-dark rounded" type="submit">Отправить</button>
+    </form>
+</div>
+{% endif %}
+
+
+
+{% endblock main %}
+
+
+
+
+
+
+
+
+
+
+
+
+

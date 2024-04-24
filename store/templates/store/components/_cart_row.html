@@ -1,0 +1,36 @@
+{% load static %}
+
+<div class="cart-row align-items-center">
+  <div style="flex:1"><img src="{{ product.product.get_first_photo }}" alt="" class="row-image"></div>
+  <div style="flex:1"><p>{{ product.product.title }}</p></div>
+  <div style="flex:1"><p>{{ product.product.price }}</p></div>
+
+  <div style="flex:1" class="d-flex"><p class="quantity mt-1">{{ product.quantity }}</p>
+    {% if 'cart' in request.path %}
+    <div class="quantity">
+      {% if product.product.quantity > 0 %}
+      <a href="{% url 'to_cart' product.product.pk 'add' %}">
+        <img data-product="id" data-action="add"
+             src="{% static 'store/images/arrow-up.png' %}" alt="" class="chg-quantity update-cart">
+      </a>
+      {% endif %}
+      <a href="{% url 'to_cart' product.product.pk 'delete' %}">
+        <img data-product="id" data-action="remove"
+             src="{% static 'store/images/arrow-down.png' %}" alt="" class="chg-quantity update-cart">
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+
+  <div style="flex:1"><p>{{ product.get_total_price }}</p></div>
+
+</div>
+
+
+
+
+
+
+
+
